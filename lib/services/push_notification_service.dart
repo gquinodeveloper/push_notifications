@@ -5,13 +5,16 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:get/get.dart';
 
 class PushNotificationService {
   static FirebaseMessaging messaging = FirebaseMessaging.instance;
   static String token = "";
 
-  static StreamController<String> _messageStream = StreamController.broadcast();
-  static Stream<String> get messageStream => _messageStream.stream;
+/*   static StreamController<String> _messageStream = StreamController.broadcast();
+  static Stream<String> get messageStream => _messageStream.stream; */
+  static RxString _message = RxString("");
+  static RxString get message => _message;
 
   //Inicial
   static Future initializeApp() async {
@@ -30,21 +33,24 @@ class PushNotificationService {
 
   //funciones para Eventos
   static Future _onBackgroundHandler(RemoteMessage message) async {
-    _messageStream.add(message.data["product"]);
+    //_messageStream.add(message.data["product"]);
+    _message.value = message.data["product"];
     //print("_onBackgroundHandler: ${message.data["product"]}");
   }
 
   static Future _onMessageHandler(RemoteMessage message) async {
-    _messageStream.add(message.data["product"]);
+    //_messageStream.add(message.data["product"]);
+    _message.value = message.data["product"];
     //print("_onMessageHandler: ${message.data["product"]}");
   }
 
   static Future _onMessageOpenedApp(RemoteMessage message) async {
-    _messageStream.add(message.data["product"]);
+    //_messageStream.add(message.data["product"]);
+    _message.value = message.data["product"];
     //print("_onMessageOpenedApp: ${message.data["product"]}");
   }
 
   static close() {
-    _messageStream.close();
+    //_messageStream.close();
   }
 }

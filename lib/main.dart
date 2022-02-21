@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pushnotifications/main_controller.dart';
 import 'package:flutter_pushnotifications/screens/home_screen.dart';
 import 'package:flutter_pushnotifications/screens/message_screen.dart';
 import 'package:flutter_pushnotifications/services/push_notification_service.dart';
+import 'package:get/get.dart';
 
 /*
 PASO 1:
@@ -21,6 +23,35 @@ void main() async {
   runApp(const MyApp());
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<MainController>(
+      init: MainController(),
+      builder: (_) => GetMaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: "home",
+        getPages: [
+          GetPage(
+            name: "/home",
+            page: () => const HomeScreen(),
+          ),
+          GetPage(
+            name: "/message",
+            page: () => const MessageScreen(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+/* 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -29,8 +60,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final messengerKey = GlobalKey<ScaffoldMessengerState>();
-  final navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   void initState() {
     super.initState();
@@ -64,3 +94,4 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+ */
